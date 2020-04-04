@@ -19,14 +19,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .inMemoryAuthentication()
                 .withUser("admin").password(passwordEncoder().encode("admin123")).roles("ADMIN")
                 .and()
-                .withUser("slava").password(passwordEncoder().encode("slava123")).roles("USER");
+                .withUser("slava").password(passwordEncoder().encode("slava123")).roles("USER")
+                .and()
+                .withUser("manager").password(passwordEncoder().encode("manager123")).roles("MANAGER");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .anyRequest().authenticated()
+                .antMatchers("/index.html").permitAll() // anybody has access to index.thml
+                .antMatchers("/profile/**").authenticated() // only authenticated users have access to any file from the profile folder
+                .antMatchers("/admin/index").hasRole("ADMIN") // only users with role ADMIN have access to admin/index
+                .antMatchers("/management/index").hasAnyRole("ADMIN", "MANAGER") // only users with role ADMIN or MANAGER have access to management/index
                 .and()
                 .httpBasic();
     }
