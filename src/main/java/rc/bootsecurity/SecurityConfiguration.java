@@ -32,6 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/profile/**").authenticated() // only authenticated users have access to any file from the profile folder
                 .antMatchers("/admin/index").hasRole("ADMIN") // only users with role ADMIN have access to admin/index
                 .antMatchers("/management/index").hasAnyRole("ADMIN", "MANAGER") // only users with role ADMIN or MANAGER have access to management/index
+                .antMatchers("/api/public/**").hasRole("ADMIN") // protecting REST controller
                 .and()
                 .httpBasic();
     }
