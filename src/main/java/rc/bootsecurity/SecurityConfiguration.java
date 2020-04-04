@@ -19,15 +19,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .inMemoryAuthentication()
                 .withUser("admin")
                 .password(passwordEncoder().encode("admin123"))
-                .roles("ADMIN").authorities("ACCESS_TEST1", "ACCESS_TEST2")
+                .authorities("ACCESS_TEST1", "ACCESS_TEST2", "ROLE_ADMIN")
                 .and()
                 .withUser("slava")
-                .password(passwordEncoder().encode("slava123")).
-                roles("USER")
+                .password(passwordEncoder().encode("slava123"))
+                .roles("USER")
                 .and()
                 .withUser("manager")
                 .password(passwordEncoder().encode("manager123"))
-                .roles("MANAGER").authorities("ACCESS_TEST1");
+                .authorities("ACCESS_TEST1", "ROLE_MANAGER");
     }
 
     @Override
@@ -40,6 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/management/index").hasAnyRole("ADMIN", "MANAGER") // only users with role ADMIN or MANAGER have access to management/index
                 .antMatchers("/api/public/test1").hasAuthority("ACCESS_TEST1") // only users with authority "ACCESS_TEST1" have access
                 .antMatchers("/api/public/test2").hasAuthority("ACCESS_TEST2")
+                .antMatchers("api/public/users").hasAuthority("ACCESS_TEST2")
                 .and()
                 .httpBasic();
     }
