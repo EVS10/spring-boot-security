@@ -17,11 +17,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .inMemoryAuthentication()
-                .withUser("admin").password(passwordEncoder().encode("admin123")).roles("ADMIN")
+                .withUser("admin")
+                .password(passwordEncoder().encode("admin123"))
+                .roles("ADMIN").authorities("ACCESS_TEST1", "ACCESS_TEST2")
                 .and()
-                .withUser("slava").password(passwordEncoder().encode("slava123")).roles("USER")
+                .withUser("slava")
+                .password(passwordEncoder().encode("slava123")).
+                roles("USER")
                 .and()
-                .withUser("manager").password(passwordEncoder().encode("manager123")).roles("MANAGER");
+                .withUser("manager")
+                .password(passwordEncoder().encode("manager123"))
+                .roles("MANAGER").authorities("ACCESS_TEST1");
     }
 
     @Override
@@ -32,7 +38,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/profile/**").authenticated() // only authenticated users have access to any file from the profile folder
                 .antMatchers("/admin/index").hasRole("ADMIN") // only users with role ADMIN have access to admin/index
                 .antMatchers("/management/index").hasAnyRole("ADMIN", "MANAGER") // only users with role ADMIN or MANAGER have access to management/index
-                .antMatchers("/api/public/**").hasRole("ADMIN") // protecting REST controller
+                .antMatchers("/api/public/test1").hasAuthority("ACCESS_TEST1") // only users with authority "ACCESS_TEST1" have access
+                .antMatchers("/api/public/test2").hasAuthority("ACCESS_TEST2")
                 .and()
                 .httpBasic();
     }
