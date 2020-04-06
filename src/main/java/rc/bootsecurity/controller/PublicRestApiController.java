@@ -9,7 +9,7 @@ import rc.bootsecurity.model.User;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/public")
+@RequestMapping("api/public/")
 public class PublicRestApiController {
 
     private UserRepository userRepository;
