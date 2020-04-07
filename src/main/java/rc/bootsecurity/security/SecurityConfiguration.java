@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -29,16 +30,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/index.html").permitAll() // anybody has access to index.thml
-                .antMatchers("/profile/**").authenticated() // only authenticated users have access to any file from the profile folder
-                .antMatchers("/admin/index").hasRole("ADMIN") // only users with role ADMIN have access to admin/index
-                .antMatchers("/management/index").hasAnyRole("ADMIN", "MANAGER") // only users with role ADMIN or MANAGER have access to management/index
-                .antMatchers("/api/public/test1").hasAuthority("ACCESS_TEST1") // only users with authority "ACCESS_TEST1" have access
+                .antMatchers("/index.html").permitAll()
+                .antMatchers("/profile/**").authenticated()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/management/**").hasAnyRole("ADMIN", "MANAGER")
+                .antMatchers("/api/public/test1").hasAuthority("ACCESS_TEST1")
                 .antMatchers("/api/public/test2").hasAuthority("ACCESS_TEST2")
-                .antMatchers("api/public/users").hasAuthority("ACCESS_TEST2")
+                .antMatchers("/api/public/users").hasRole("ADMIN")
                 .and()
                 .formLogin()
-                .loginPage("/login");
+                .loginProcessingUrl("/signin")
+                .loginPage("/login").permitAll()
+                .usernameParameter("txtUsername")
+                .passwordParameter("txtPassword")
+                .and()
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")
+                .and()
+                .rememberMe().tokenValiditySeconds(2592000).key("mySecret!").rememberMeParameter("checkRememberMe");
     }
 
     @Bean
