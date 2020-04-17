@@ -23,13 +23,13 @@
                     <a class="nav-link" href="#" th:href="@{~/profile/index}">Profile</a>
                 </li>
                 <li sec:authorize="isAuthenticated()" class="nav-item">
-                    <a class="nav-link" href="#" th:href="@{~/operation/add}">Add</a>
+                    <a class="nav-link" href="#" th:href="@{~/operation/view/add}">Add</a>
                 </li>
                 <li sec:authorize="isAuthenticated()" class="nav-item">
-                    <a class="nav-link" href="#" th:href="@{~/operation/withdraw}">Withdraw</a>
+                    <a class="nav-link" href="#" th:href="@{~/operation/view/withdraw}">Withdraw</a>
                 </li>
                 <li sec:authorize="isAuthenticated()" class="nav-item">
-                    <a class="nav-link" href="#" th:href="@{~/operation/transfer}">Transfer</a>
+                    <a class="nav-link" href="#" th:href="@{~/operation/view/transfer}">Transfer</a>
                 </li>
                 <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
                     <a class="nav-link" href="#" th:href="@{~/admin/index}">Admin</a>

@@ -28,27 +28,23 @@ public class OperationController {
         return userRepository.findByUsername(username);
     }
 
-    @RequestMapping("/add")
+    @RequestMapping("/view/add")
     public String add() {
-        System.out.println("ADD");
-        return "operation/add";
+        return "operation/view/add";
     }
 
-    @RequestMapping("/withdraw")
+    @RequestMapping("/view/withdraw")
     public String withdraw() {
-        System.out.println("WITHDRAW");
-        return "operation/withdraw";
+        return "operation/view/withdraw";
     }
 
-    @RequestMapping("/transfer")
+    @RequestMapping("/view/transfer")
     public String transfer() {
-        System.out.println("TRANSFER");
-        return "operation/transfer";
+        return "operation/view/transfer";
     }
 
-    @PostMapping("/plus")
+    @PostMapping("/perform/add")
     public String plus(@RequestParam BigDecimal sum) {
-        System.out.println("PLUS");
         User user = getCurrentUser();
         user.addBalance(sum);
         userRepository.save(user);
