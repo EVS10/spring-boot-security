@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import rc.bootsecurity.db.UserRepository;
-import rc.bootsecurity.model.User;
+import rc.bootsecurity.model.Client;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class PublicRestApiController {
     }
 
     @GetMapping("users")
-    public List<User> users() {
+    public List<Client> users() {
         return userRepository.findAll();
     }
 

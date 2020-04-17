@@ -3,12 +3,11 @@ package rc.bootsecurity.controller;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import rc.bootsecurity.db.UserRepository;
-import rc.bootsecurity.model.User;
+import rc.bootsecurity.model.Client;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -23,7 +22,7 @@ public class OperationController {
         this.userRepository = userRepository;
     }
 
-    private User getCurrentUser() {
+    private Client getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         return userRepository.findByUsername(username);
@@ -46,7 +45,7 @@ public class OperationController {
 
     @PostMapping("/perform/add")
     public String add(@RequestParam BigDecimal sum) {
-        User user = getCurrentUser();
+        Client user = getCurrentUser();
         user.add(sum);
         userRepository.save(user);
         return "operation/success";
@@ -54,7 +53,7 @@ public class OperationController {
 
     @PostMapping("/perform/withdraw")
     public String withdraw(@RequestParam BigDecimal sum) {
-        User user = getCurrentUser();
+        Client user = getCurrentUser();
         user.withdraw(sum);
         userRepository.save(user);
         return "operation/success";
@@ -62,8 +61,8 @@ public class OperationController {
 
     @PostMapping("/perform/transfer")
     public String withdraw(@RequestParam long id, @RequestParam BigDecimal sum) {
-        User user = getCurrentUser();
-        User receiver = userRepository.findById(id);
+        Client user = getCurrentUser();
+        Client receiver = userRepository.findById(id);
         user.transfer(receiver, sum);
         userRepository.saveAll(Arrays.asList(user, receiver));
         return "operation/success";

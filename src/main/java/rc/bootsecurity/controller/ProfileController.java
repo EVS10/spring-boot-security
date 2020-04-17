@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import rc.bootsecurity.db.UserRepository;
-import rc.bootsecurity.model.User;
+import rc.bootsecurity.model.Client;
 
 @Controller
 @RequestMapping("profile")
@@ -23,7 +23,7 @@ public class ProfileController {
     public String index(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        User user = userRepository.findByUsername(username);
+        Client user = userRepository.findByUsername(username);
         model.addAttribute("user", user);
         return "profile/index";
     }

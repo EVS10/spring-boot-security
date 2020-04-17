@@ -3,7 +3,7 @@ package rc.bootsecurity.security;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import rc.bootsecurity.model.User;
+import rc.bootsecurity.model.Client;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -11,9 +11,9 @@ import java.util.Collection;
 
 public class UserPrincipal implements UserDetails {
 
-    private User user;
+    private Client user;
 
-    public UserPrincipal(User user) {
+    public UserPrincipal(Client user) {
         this.user = user;
     }
 

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 @Entity
-public class User {
+public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,7 +28,7 @@ public class User {
 
     private BigDecimal balance;
 
-    public User(String username, String password, String roles, String permissions, BigDecimal balance) {
+    public Client(String username, String password, String roles, String permissions, BigDecimal balance) {
         this.username = username;
         this.password = password;
         this.roles = roles;
@@ -37,7 +37,7 @@ public class User {
         this.active = 1;
     }
 
-    protected User() { }
+    protected Client() { }
 
     public long getId() {
         return id;
@@ -91,7 +91,7 @@ public class User {
         return true;
     }
 
-    public boolean transfer(User receiver, BigDecimal sum) {
+    public boolean transfer(Client receiver, BigDecimal sum) {
         balance = balance.subtract(sum);
         receiver.add(sum);
         return true;
