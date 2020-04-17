@@ -22,7 +22,7 @@ public class DbInit implements CommandLineRunner {
     @Override
     public void run(String... args) {
         userRepository.deleteAll();
-        User slava = new User("slava", passwordEncoder.encode("slava123"), "USER", "");
+        User slava = new User("slava", passwordEncoder.encode("slava123"), "ADMIN", "ACCESS_TEST1, ACCESS_TEST2");
         User admin = new User("admin", passwordEncoder.encode("admin123"), "ADMIN", "ACCESS_TEST1, ACCESS_TEST2");
         User manager = new User("manager", passwordEncoder.encode("manager123"), "MANAGER", "ACCESS_TEST1");
         List<User> users = Arrays.asList(slava, admin, manager);
