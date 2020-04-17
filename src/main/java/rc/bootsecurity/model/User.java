@@ -81,8 +81,13 @@ public class User {
         return new ArrayList<>();
     }
 
-    public boolean addBalance(BigDecimal sum) {
+    public boolean add(BigDecimal sum) {
         balance = balance.add(sum);
+        return true;
+    }
+
+    public boolean withdraw(BigDecimal sum) {
+        balance = balance.subtract(sum);
         return true;
     }
 

@@ -44,9 +44,17 @@ public class OperationController {
     }
 
     @PostMapping("/perform/add")
-    public String plus(@RequestParam BigDecimal sum) {
+    public String add(@RequestParam BigDecimal sum) {
         User user = getCurrentUser();
-        user.addBalance(sum);
+        user.add(sum);
+        userRepository.save(user);
+        return "operation/success";
+    }
+
+    @PostMapping("/perform/withdraw")
+    public String withdraw(@RequestParam BigDecimal sum) {
+        User user = getCurrentUser();
+        user.withdraw(sum);
         userRepository.save(user);
         return "operation/success";
     }
