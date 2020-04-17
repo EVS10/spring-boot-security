@@ -81,17 +81,34 @@ public class Client {
         return new ArrayList<>();
     }
 
+    private boolean isNegative(BigDecimal sum) {
+        return sum.compareTo(new BigDecimal(0)) < 0;
+    }
+
+    private boolean isBalanceLessThanSum(BigDecimal sum) {
+        return balance.compareTo(sum) < 0;
+    }
+
     public boolean add(BigDecimal sum) {
+        if (isNegative(sum)) {
+            return false;
+        }
         balance = balance.add(sum);
         return true;
     }
 
     public boolean withdraw(BigDecimal sum) {
+        if (isNegative(sum) || isBalanceLessThanSum(sum)) {
+            return false;
+        }
         balance = balance.subtract(sum);
         return true;
     }
 
     public boolean transfer(Client receiver, BigDecimal sum) {
+        if (isNegative(sum) || isBalanceLessThanSum(sum)) {
+            return false;
+        }
         balance = balance.subtract(sum);
         receiver.add(sum);
         return true;

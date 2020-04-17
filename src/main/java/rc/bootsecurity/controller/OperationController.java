@@ -16,6 +16,9 @@ import java.util.Arrays;
 @RequestMapping("operation")
 public class OperationController {
 
+    private String successPage = "operation/result/success";
+    private String failurePage = "operation/result/failure";
+
     private final UserRepository userRepository;
 
     public OperationController(UserRepository userRepository) {
@@ -46,26 +49,33 @@ public class OperationController {
     @PostMapping("/perform/add")
     public String add(@RequestParam BigDecimal sum) {
         Client user = getCurrentUser();
-        user.add(sum);
-        userRepository.save(user);
-        return "operation/success";
+        if (user.add(sum)) {
+            userRepository.save(user);
+            return successPage;
+        }
+        return failurePage;
     }
 
     @PostMapping("/perform/withdraw")
     public String withdraw(@RequestParam BigDecimal sum) {
         Client user = getCurrentUser();
-        user.withdraw(sum);
-        userRepository.save(user);
-        return "operation/success";
+        if (user.withdraw(sum)) {
+            userRepository.save(user);
+            return successPage;
+        }
+        return failurePage;
     }
 
     @PostMapping("/perform/transfer")
     public String withdraw(@RequestParam long id, @RequestParam BigDecimal sum) {
         Client user = getCurrentUser();
         Client receiver = userRepository.findById(id);
-        user.transfer(receiver, sum);
-        userRepository.saveAll(Arrays.asList(user, receiver));
-        return "operation/success";
+        System.out.println(receiver);
+        if (receiver != null && user.transfer(receiver, sum)) {
+            userRepository.saveAll(Arrays.asList(user, receiver));
+            return successPage;
+        }
+        return failurePage;
     }
 
 }
