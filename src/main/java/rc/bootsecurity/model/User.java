@@ -81,4 +81,17 @@ public class User {
         return new ArrayList<>();
     }
 
+    public boolean addBalance(BigDecimal sum) {
+        balance = balance.add(sum);
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", balance=" + balance +
+                '}';
+    }
 }
