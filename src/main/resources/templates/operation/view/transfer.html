@@ -6,6 +6,13 @@
 <!-- Page content goes here -->
 <div class="container">
     <p>This is operation/transfer</p>
+    <form name="add" method="post" th:action="@{/operation/perform/transfer}">
+        <label>Sum:</label>
+        <input type="text" name="sum"/><br>
+        <label>Receiver ID:</label>
+        <input type="text" name="id"/><br>
+        <button type="submit">OK</button>
+    </form>
 </div>
 </body>
 </html>

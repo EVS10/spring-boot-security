@@ -91,6 +91,12 @@ public class User {
         return true;
     }
 
+    public boolean transfer(User receiver, BigDecimal sum) {
+        balance = balance.subtract(sum);
+        receiver.add(sum);
+        return true;
+    }
+
     @Override
     public String toString() {
         return "User{" +

@@ -11,6 +11,7 @@ import rc.bootsecurity.db.UserRepository;
 import rc.bootsecurity.model.User;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 @Controller
 @RequestMapping("operation")
@@ -56,6 +57,15 @@ public class OperationController {
         User user = getCurrentUser();
         user.withdraw(sum);
         userRepository.save(user);
+        return "operation/success";
+    }
+
+    @PostMapping("/perform/transfer")
+    public String withdraw(@RequestParam long id, @RequestParam BigDecimal sum) {
+        User user = getCurrentUser();
+        User receiver = userRepository.findById(id);
+        user.transfer(receiver, sum);
+        userRepository.saveAll(Arrays.asList(user, receiver));
         return "operation/success";
     }
 
