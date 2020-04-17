@@ -20,19 +20,10 @@ public class UserPrincipal implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-
-        // extract list of permissions (name)
-        user.getPermissionList().forEach(permission -> {
-            GrantedAuthority authority = new SimpleGrantedAuthority(permission);
-            authorities.add(authority);
-        });
-
-        // extract list of roles (ROLE_NAME)
         user.getRoleList().forEach(role -> {
             GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role);
             authorities.add(authority);
         });
-
         return authorities;
     }
 

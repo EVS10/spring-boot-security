@@ -15,6 +15,12 @@ public class Client {
     private long id;
 
     @Column(nullable = false)
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
+    @Column(nullable = false)
     private String username;
 
     @Column(nullable = false)
@@ -24,15 +30,14 @@ public class Client {
 
     private String roles = "";
 
-    private String permissions = "";
-
     private BigDecimal balance;
 
-    public Client(String username, String password, String roles, String permissions, BigDecimal balance) {
+    public Client(String firstName, String lastName, String username, String password, String roles, BigDecimal balance) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.username = username;
         this.password = password;
         this.roles = roles;
-        this.permissions = permissions;
         this.balance = balance;
         this.active = 1;
     }
@@ -41,6 +46,14 @@ public class Client {
 
     public long getId() {
         return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public String getUsername() {
@@ -59,10 +72,6 @@ public class Client {
         return roles;
     }
 
-    public String getPermissions() {
-        return permissions;
-    }
-
     public BigDecimal getBalance() {
         return balance;
     }
@@ -70,13 +79,6 @@ public class Client {
     public List<String> getRoleList() {
         if (roles.length() > 0) {
             return Arrays.asList(roles.split(","));
-        }
-        return new ArrayList<>();
-    }
-
-    public List<String> getPermissionList() {
-        if (roles.length() > 0) {
-            return Arrays.asList(permissions.split(","));
         }
         return new ArrayList<>();
     }
@@ -116,9 +118,14 @@ public class Client {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "Client{" +
                 "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", active=" + active +
+                ", roles='" + roles + '\'' +
                 ", balance=" + balance +
                 '}';
     }
