@@ -6,6 +6,18 @@
 <!-- Page content goes here -->
 <div class="container">
     <p>This is Admin\Index. Only people with role_admin can see this.</p>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Balance</th>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.balance}"></td>
+        </tr>
+    </table>
 </div>
 </body>
 </html>

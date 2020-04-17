@@ -16,6 +16,16 @@
             <td><span sec:authentication="principal.authorities"></span></td>
         </tr>
     </table>
+    <table border="1">
+        <tr>
+            <td>ID</td>
+            <td>Username</td>
+            <td>Balance</td>
+        </tr>
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.balance}"></td>
+    </table>
 </div>
 </body>
 </html>

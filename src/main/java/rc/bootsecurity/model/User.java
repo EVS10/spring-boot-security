@@ -1,5 +1,6 @@
 package rc.bootsecurity.model;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.*;
@@ -25,11 +26,14 @@ public class User {
 
     private String permissions = "";
 
-    public User(String username, String password, String roles, String permissions) {
+    private BigDecimal balance;
+
+    public User(String username, String password, String roles, String permissions, BigDecimal balance) {
         this.username = username;
         this.password = password;
         this.roles = roles;
         this.permissions = permissions;
+        this.balance = balance;
         this.active = 1;
     }
 
@@ -57,6 +61,10 @@ public class User {
 
     public String getPermissions() {
         return permissions;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
     }
 
     public List<String> getRoleList() {
