@@ -3,16 +3,37 @@
 <head th:insert="fragments.html :: headerfiles"></head>
 <body>
 <header th:insert="fragments.html :: nav"></header>
-<!-- Page content goes here -->
 <div class="container">
-    <p>This is operation/transfer</p>
-    <form name="add" method="post" th:action="@{/operation/perform/transfer}">
-        <label>Sum:</label>
-        <input type="text" name="sum"/><br>
-        <label>Receiver ID:</label>
-        <input type="text" name="id"/><br>
-        <button type="submit">OK</button>
-    </form>
+
+    <h1 class="display-4">Transfer</h1>
+
+    <div style="width: 600px; margin-left: auto;margin-right: auto;margin-top: 24px; padding: 24px;">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-user"></i> Fill in the Form
+            </div>
+            <div class="card-block" style="padding: 24px;">
+
+                <form name="add" method="post" th:action="@{/operation/perform/transfer}">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="sum">Sum</label>
+                            <input type="text" class="form-control" id="sum" name="sum"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="id">Receiver ID</label>
+                            <input type="text" class="form-control" id="id" name="id"/>
+                        </div>
+                        <div class="form-actions" style="margin-top: 12px;">
+                            <button type="submit" class="btn btn-success">OK</button>
+                        </div>
+                    </fieldset>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
 </div>
 </body>
 </html>

@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <!-- Fragment #1 : Headerfiles contains css and js references -->
 <head th:fragment="headerfiles">
-    <title>Introduction to SpringBoot Security</title>
+    <title>Bank</title>
     <meta charset="UTF-8"/>
     <link th:href="@{~/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{~/fontawesome/css/all.css}" rel="stylesheet">
@@ -12,7 +12,7 @@
 <!-- Fragment #2 : Navbar contains nav links -->
 <div th:fragment="nav">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Boot Security</a>
+        <a class="navbar-brand" href="#">Bank</a>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
@@ -32,9 +32,9 @@
                     <a class="nav-link" href="#" th:href="@{~/operation/view/transfer}">Transfer</a>
                 </li>
                 <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
-                    <a class="nav-link" href="#" th:href="@{~/admin/index}">Admin</a>
+                    <a class="nav-link" href="#" th:href="@{~/admin/index}">Clients</a>
                 </li>
-                <li sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')" class="nav-item">
+                <li sec:authorize="hasAnyRole('ROLE_ADMIN')" class="nav-item">
                     <a class="nav-link" href="#" th:href="@{~/management/index}">Management</a>
                 </li>
             </ul>

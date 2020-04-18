@@ -3,17 +3,21 @@
 <head th:insert="fragments.html :: headerfiles"></head>
 <body>
 <header th:insert="fragments.html :: nav"></header>
-<!-- Page content goes here -->
+
 <div class="container">
-    <p>This is Admin\Index. Only people with role_admin can see this.</p>
-    <table border="1">
+    <h1 class="display-4">Clients</h1>
+    <table class="table-light" align="center">
         <tr>
             <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
             <th>Username</th>
             <th>Balance</th>
         </tr>
         <tr th:each="user : ${users}">
             <td th:text="${user.id}"></td>
+            <td th:text="${user.firstName}"></td>
+            <td th:text="${user.lastName}"></td>
             <td th:text="${user.username}"></td>
             <td th:text="${user.balance}"></td>
         </tr>
