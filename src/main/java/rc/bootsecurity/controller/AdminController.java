@@ -18,7 +18,7 @@ public class AdminController {
 
     @GetMapping("index")
     public String index(Model model){
-        model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("users", userRepository.findAllByOrderById());
         return "admin/index";
     }
 

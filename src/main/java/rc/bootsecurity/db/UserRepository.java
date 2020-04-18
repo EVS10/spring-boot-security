@@ -1,5 +1,6 @@
 package rc.bootsecurity.db;
 
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import rc.bootsecurity.model.Client;
@@ -8,5 +9,5 @@ import rc.bootsecurity.model.Client;
 public interface UserRepository extends JpaRepository<Client, Long> {
     Client findByUsername(String username);
     Client findById(long id);
-
+    List<Client> findAllByOrderById();
 }
