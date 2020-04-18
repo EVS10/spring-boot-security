@@ -3,6 +3,7 @@ package rc.bootsecurity.controller;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,8 +17,9 @@ import java.util.Arrays;
 @RequestMapping("operation")
 public class OperationController {
 
-    private String successPage = "operation/result/success";
-    private String failurePage = "operation/result/failure";
+    private String successOperation = "Operation successful!";
+    private String failureOperation = "Operation failed!";
+    private String resultPage = "operation/result";
 
     private final UserRepository userRepository;
 
@@ -47,34 +49,64 @@ public class OperationController {
     }
 
     @PostMapping("/perform/add")
-    public String add(@RequestParam BigDecimal sum) {
+    public String add(@RequestParam String sum, Model model) {
         Client user = getCurrentUser();
-        if (user.add(sum)) {
-            userRepository.save(user);
-            return successPage;
+        String message = "";
+        try {
+            if (user.add(new BigDecimal(sum))) {
+                userRepository.save(user);
+                message = successOperation;
+            } else {
+                message = failureOperation + " Sum must be positive";
+            }
+        } catch (NumberFormatException ex) {
+                message = failureOperation + " Wrong input format";
         }
-        return failurePage;
+        model.addAttribute("message", message);
+        return resultPage;
     }
 
     @PostMapping("/perform/withdraw")
-    public String withdraw(@RequestParam BigDecimal sum) {
+    public String withdraw(@RequestParam String sum, Model model) {
         Client user = getCurrentUser();
-        if (user.withdraw(sum)) {
-            userRepository.save(user);
-            return successPage;
+        String message = null;
+        try {
+            if (user.withdraw(new BigDecimal(sum))) {
+                userRepository.save(user);
+                message = successOperation;
+            } else if (sum.contains("-")) {
+                message = failureOperation + " Sum must be positive";
+            } else {
+                message = failureOperation + " Not enough money";
+            }
+        } catch (NumberFormatException ex) {
+            message = failureOperation + " Wrong input format";
         }
-        return failurePage;
+        model.addAttribute("message", message);
+        return resultPage;
     }
 
     @PostMapping("/perform/transfer")
-    public String withdraw(@RequestParam long id, @RequestParam BigDecimal sum) {
+    public String withdraw(@RequestParam String id, @RequestParam String sum, Model model) {
         Client user = getCurrentUser();
-        Client receiver = userRepository.findById(id);
-        if (receiver != null && user.transfer(receiver, sum)) {
-            userRepository.saveAll(Arrays.asList(user, receiver));
-            return successPage;
+        String message = null;
+        Client receiver = userRepository.findById(Long.parseLong(id));
+        try {
+            if (receiver != null && user.transfer(receiver, new BigDecimal(sum))) {
+                userRepository.saveAll(Arrays.asList(user, receiver));
+                message = successOperation;
+            } else if (receiver == null) {
+                message = failureOperation + " Receiver ID does not exist";
+            } else if (sum.contains("-")) {
+                message = failureOperation + " Sum must be positive";
+            } else {
+                message = failureOperation + " Not enough money";
+            }
+        } catch (NumberFormatException ex) {
+            message = failureOperation + "Wrong input format";
         }
-        return failurePage;
+        model.addAttribute("message", message);
+        return resultPage;
     }
 
 }
