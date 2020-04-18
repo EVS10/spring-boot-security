@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ManagementController {
 
     @GetMapping("index")
-    public String index(){
+    public String index() {
         return "management/index";
     }
 }
