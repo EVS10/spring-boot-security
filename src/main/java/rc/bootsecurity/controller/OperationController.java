@@ -70,7 +70,6 @@ public class OperationController {
     public String withdraw(@RequestParam long id, @RequestParam BigDecimal sum) {
         Client user = getCurrentUser();
         Client receiver = userRepository.findById(id);
-        System.out.println(receiver);
         if (receiver != null && user.transfer(receiver, sum)) {
             userRepository.saveAll(Arrays.asList(user, receiver));
             return successPage;

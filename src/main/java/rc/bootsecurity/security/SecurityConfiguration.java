@@ -34,20 +34,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/profile/**").authenticated()
                 .antMatchers("/operation/**").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/management/**").hasAnyRole("ADMIN", "MANAGER")
-                .antMatchers("/api/public/test1").hasAuthority("ACCESS_TEST1")
-                .antMatchers("/api/public/test2").hasAuthority("ACCESS_TEST2")
-                .antMatchers("/api/public/users").hasRole("ADMIN")
+                .antMatchers("/management/**").hasRole("ADMIN")
                 .and()
                 .formLogin()
                 .loginProcessingUrl("/signin")
                 .loginPage("/login").permitAll()
-                .usernameParameter("txtUsername")
-                .passwordParameter("txtPassword")
+                .usernameParameter("username")
+                .passwordParameter("password")
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login") // logout feature
                 .and()
-                .rememberMe().tokenValiditySeconds(2592000).key("mySecret!").rememberMeParameter("checkRememberMe"); // remember-me feature, 2592000 s = 30 days of a cookie life
+                .rememberMe().tokenValiditySeconds(60 * 60 * 24).key("mySecret!").rememberMeParameter("remember-me"); // remember-me feature, 2592000 s = 30 days of a cookie life
     }
 
     @Bean
