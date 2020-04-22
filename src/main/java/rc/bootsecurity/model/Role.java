@@ -2,8 +2,10 @@ package rc.bootsecurity.model;
 
 public enum Role {
 
-    USER("USER"),
-    ADMIN("ADMIN");
+    ADMIN("ADMIN"),
+    MANAGER("MANAGER"),
+    USER("USER");
+
 
     private final String label;
 

@@ -17,7 +17,7 @@ public class Client {
     @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false)
@@ -27,6 +27,7 @@ public class Client {
     @Enumerated(EnumType.ORDINAL)
     private Role role;
 
+    @Column(nullable = false)
     private BigDecimal balance;
 
     public Client(String firstName, String lastName, String username, String password, Role role, BigDecimal balance) {
