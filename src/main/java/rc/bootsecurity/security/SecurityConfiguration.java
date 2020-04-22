@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -15,10 +14,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private UserPrincipalDetailsService userPrincipalDetailsService;
+    private ClientPrincipalDetailsService clientPrincipalDetailsService;
 
-    public SecurityConfiguration(UserPrincipalDetailsService userPrincipalDetailsService) {
-        this.userPrincipalDetailsService = userPrincipalDetailsService;
+    public SecurityConfiguration(ClientPrincipalDetailsService clientPrincipalDetailsService) {
+        this.clientPrincipalDetailsService = clientPrincipalDetailsService;
     }
 
     @Override
@@ -51,7 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        daoAuthenticationProvider.setUserDetailsService(this.userPrincipalDetailsService);
+        daoAuthenticationProvider.setUserDetailsService(this.clientPrincipalDetailsService);
         return daoAuthenticationProvider;
     }
 

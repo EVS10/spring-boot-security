@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import rc.bootsecurity.repositories.UserRepository;
+import rc.bootsecurity.repositories.ClientRepository;
 import rc.bootsecurity.model.Client;
 
 import java.math.BigDecimal;
@@ -21,16 +21,16 @@ public class OperationController {
     private String failureOperation = "Operation failed!";
     private String resultPage = "operation/result";
 
-    private final UserRepository userRepository;
+    private final ClientRepository clientRepository;
 
-    public OperationController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public OperationController(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
     }
 
     private Client getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        return userRepository.findByUsername(username);
+        return clientRepository.findByUsername(username);
     }
 
     @RequestMapping("/view/add")
@@ -54,7 +54,7 @@ public class OperationController {
         String message = "";
         try {
             if (user.add(new BigDecimal(sum))) {
-                userRepository.save(user);
+                clientRepository.save(user);
                 message = successOperation;
             } else {
                 message = failureOperation + " Sum must be positive";
@@ -72,7 +72,7 @@ public class OperationController {
         String message = null;
         try {
             if (user.withdraw(new BigDecimal(sum))) {
-                userRepository.save(user);
+                clientRepository.save(user);
                 message = successOperation;
             } else if (sum.contains("-")) {
                 message = failureOperation + " Sum must be positive";
@@ -90,10 +90,10 @@ public class OperationController {
     public String withdraw(@RequestParam String id, @RequestParam String sum, Model model) {
         Client user = getCurrentUser();
         String message = null;
-        Client receiver = userRepository.findById(Long.parseLong(id));
+        Client receiver = clientRepository.findById(Long.parseLong(id));
         try {
             if (receiver != null && user.transfer(receiver, new BigDecimal(sum))) {
-                userRepository.saveAll(Arrays.asList(user, receiver));
+                clientRepository.saveAll(Arrays.asList(user, receiver));
                 message = successOperation;
             } else if (receiver == null) {
                 message = failureOperation + " Receiver ID does not exist";

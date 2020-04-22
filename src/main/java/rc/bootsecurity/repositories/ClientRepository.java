@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import rc.bootsecurity.model.Client;
 
 @Repository
-public interface UserRepository extends JpaRepository<Client, Long> {
+public interface ClientRepository extends JpaRepository<Client, Long> {
     Client findByUsername(String username);
     Client findById(long id);
     List<Client> findAllByOrderById();

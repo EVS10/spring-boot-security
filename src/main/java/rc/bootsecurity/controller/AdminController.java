@@ -4,22 +4,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import rc.bootsecurity.repositories.UserRepository;
+import rc.bootsecurity.repositories.ClientRepository;
 
 @Controller
 @RequestMapping("admin")
 public class AdminController {
 
-    private final UserRepository userRepository;
+    private final ClientRepository clientRepository;
 
-    public AdminController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public AdminController(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
     }
 
-    @GetMapping("index")
+    @GetMapping("clients")
     public String index(Model model) {
-        model.addAttribute("users", userRepository.findAllByOrderById());
-        return "admin/index";
+        model.addAttribute("users", clientRepository.findAllByOrderById());
+        return "admin/clients";
     }
 
 }

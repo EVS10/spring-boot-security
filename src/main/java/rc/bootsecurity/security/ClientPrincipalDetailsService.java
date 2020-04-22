@@ -4,26 +4,26 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import rc.bootsecurity.repositories.UserRepository;
+import rc.bootsecurity.repositories.ClientRepository;
 import rc.bootsecurity.model.Client;
 
 @Service
-public class UserPrincipalDetailsService implements UserDetailsService {
+public class ClientPrincipalDetailsService implements UserDetailsService {
 
-    private UserRepository userRepository;
+    private ClientRepository clientRepository;
 
-    public UserPrincipalDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public ClientPrincipalDetailsService(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Client user = userRepository.findByUsername(s);
+        Client user = clientRepository.findByUsername(s);
         if (user == null) {
             throw new UsernameNotFoundException("User was not found!");
         }
-        UserPrincipal userPrincipal = new UserPrincipal(user);
-        return userPrincipal;
+        ClientPrincipal clientPrincipal = new ClientPrincipal(user);
+        return clientPrincipal;
     }
 
 }

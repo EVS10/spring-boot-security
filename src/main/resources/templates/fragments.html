@@ -32,7 +32,7 @@
                     <a class="nav-link" href="#" th:href="@{~/operation/view/transfer}">Transfer</a>
                 </li>
                 <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
-                    <a class="nav-link" href="#" th:href="@{~/admin/index}">Clients</a>
+                    <a class="nav-link" href="#" th:href="@{~/admin/clients}">Clients</a>
                 </li>
             </ul>
             <form class = "form-inline my-2 my-lg-0" form-method="post" th:action="@{/logout}">

@@ -9,18 +9,18 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class UserPrincipal implements UserDetails {
+public class ClientPrincipal implements UserDetails {
 
-    private Client user;
+    private Client client;
 
-    public UserPrincipal(Client user) {
-        this.user = user;
+    public ClientPrincipal(Client client) {
+        this.client = client;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        user.getRoleList().forEach(role -> {
+        client.getRoleList().forEach(role -> {
             GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role);
             authorities.add(authority);
         });
@@ -29,12 +29,12 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return client.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return client.getUsername();
     }
 
     @Override
@@ -54,7 +54,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.getActive() == 1;
+        return client.getActive() == 1;
     }
 
 }

@@ -6,24 +6,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import rc.bootsecurity.repositories.UserRepository;
+import rc.bootsecurity.repositories.ClientRepository;
 import rc.bootsecurity.model.Client;
 
 @Controller
 @RequestMapping("profile")
 public class ProfileController {
 
-    private final UserRepository userRepository;
+    private final ClientRepository clientRepository;
 
-    public ProfileController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public ProfileController(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
     }
 
     @GetMapping("index")
     public String index(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        Client user = userRepository.findByUsername(username);
+        Client user = clientRepository.findByUsername(username);
         model.addAttribute("user", user);
         return "profile/index";
     }
