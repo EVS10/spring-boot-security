@@ -1,11 +1,8 @@
 package rc.bootsecurity.model;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 @Entity
 public class Client {
@@ -26,20 +23,19 @@ public class Client {
     @Column(nullable = false)
     private String password;
 
-    private int active;
-
-    private String roles = "";
+    @Column(nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private Role role;
 
     private BigDecimal balance;
 
-    public Client(String firstName, String lastName, String username, String password, String roles, BigDecimal balance) {
+    public Client(String firstName, String lastName, String username, String password, Role role, BigDecimal balance) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
-        this.roles = roles;
+        this.role = role;
         this.balance = balance;
-        this.active = 1;
     }
 
     protected Client() { }
@@ -65,22 +61,15 @@ public class Client {
     }
 
     public int getActive() {
-        return active;
+        return 1;
     }
 
-    public String getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
     public BigDecimal getBalance() {
         return balance;
-    }
-
-    public List<String> getRoleList() {
-        if (roles.length() > 0) {
-            return Arrays.asList(roles.split(","));
-        }
-        return new ArrayList<>();
     }
 
     private boolean isNegative(BigDecimal sum) {
@@ -124,8 +113,7 @@ public class Client {
                 ", lastName='" + lastName + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", active=" + active +
-                ", roles='" + roles + '\'' +
+                ", role='" + role + '\'' +
                 ", balance=" + balance +
                 '}';
     }

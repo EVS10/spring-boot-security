@@ -20,10 +20,7 @@ public class ClientPrincipal implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        client.getRoleList().forEach(role -> {
-            GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role);
-            authorities.add(authority);
-        });
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + client.getRole().getLabel()));
         return authorities;
     }
 
