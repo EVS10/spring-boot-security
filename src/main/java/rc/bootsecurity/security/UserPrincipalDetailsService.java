@@ -4,7 +4,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import rc.bootsecurity.db.UserRepository;
+import rc.bootsecurity.repositories.UserRepository;
 import rc.bootsecurity.model.Client;
 
 @Service
