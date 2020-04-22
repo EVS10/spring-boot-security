@@ -33,19 +33,19 @@ public class OperationController {
         return clientRepository.findByUsername(username);
     }
 
-    @RequestMapping("/view/add")
+    @RequestMapping("/add")
     public String add() {
-        return "operation/view/add";
+        return "operation/add";
     }
 
-    @RequestMapping("/view/withdraw")
+    @RequestMapping("/withdraw")
     public String withdraw() {
-        return "operation/view/withdraw";
+        return "operation/withdraw";
     }
 
-    @RequestMapping("/view/transfer")
+    @RequestMapping("/transfer")
     public String transfer() {
-        return "operation/view/transfer";
+        return "operation/transfer";
     }
 
     @PostMapping("/perform/add")
