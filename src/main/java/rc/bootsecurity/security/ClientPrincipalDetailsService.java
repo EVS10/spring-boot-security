@@ -22,8 +22,8 @@ public class ClientPrincipalDetailsService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User was not found!");
         }
-        ClientPrincipal clientPrincipal = new ClientPrincipal(user);
-        return clientPrincipal;
+        ClientPrincipalDetails clientPrincipalDetails = new ClientPrincipalDetails(user);
+        return clientPrincipalDetails;
     }
 
 }
