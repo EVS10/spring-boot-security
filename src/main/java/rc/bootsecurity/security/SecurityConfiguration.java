@@ -32,6 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/index").permitAll()
                 .antMatchers("/profile/**").authenticated()
                 .antMatchers("/operation/**").authenticated()
+                .antMatchers("/error/**").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .and()
                 .formLogin()
@@ -40,16 +41,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login") // logout feature
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")
                 .and()
-                .rememberMe().tokenValiditySeconds(60 * 60 * 24).rememberMeParameter("remember-me"); // remember-me feature, 2592000 s = 30 days of a cookie life
+                .rememberMe().tokenValiditySeconds(60 * 60 * 24).rememberMeParameter("remember-me");
     }
 
     @Bean
     DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        daoAuthenticationProvider.setUserDetailsService(this.clientPrincipalDetailsService);
+        daoAuthenticationProvider.setUserDetailsService(clientPrincipalDetailsService);
         return daoAuthenticationProvider;
     }
 
