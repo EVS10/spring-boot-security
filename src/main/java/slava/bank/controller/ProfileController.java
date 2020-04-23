@@ -1,4 +1,4 @@
-package rc.bootsecurity.controller;
+package slava.bank.controller;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -6,8 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import rc.bootsecurity.repositories.ClientRepository;
-import rc.bootsecurity.model.Client;
+import slava.bank.repositories.ClientRepository;
+import slava.bank.model.Client;
 
 @Controller
 @RequestMapping("profile")

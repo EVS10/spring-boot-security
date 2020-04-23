@@ -1,4 +1,4 @@
-package rc.bootsecurity.model;
+package slava.bank.model;
 
 public enum Role {
 

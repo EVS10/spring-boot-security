@@ -1,4 +1,4 @@
-package rc.bootsecurity.controller;
+package slava.bank.controller;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
