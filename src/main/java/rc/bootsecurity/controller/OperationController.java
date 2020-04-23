@@ -69,7 +69,7 @@ public class OperationController {
     @PostMapping("/perform/withdraw")
     public String withdraw(@RequestParam String sum, Model model) {
         Client user = getCurrentUser();
-        String message = null;
+        String message = "";
         try {
             if (user.withdraw(new BigDecimal(sum))) {
                 clientRepository.save(user);
@@ -89,7 +89,7 @@ public class OperationController {
     @PostMapping("/perform/transfer")
     public String withdraw(@RequestParam String id, @RequestParam String sum, Model model) {
         Client user = getCurrentUser();
-        String message = null;
+        String message = "";
         Client receiver = clientRepository.findById(Long.parseLong(id));
         try {
             if (receiver != null && user.transfer(receiver, new BigDecimal(sum))) {

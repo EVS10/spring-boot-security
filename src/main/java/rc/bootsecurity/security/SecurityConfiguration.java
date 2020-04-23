@@ -29,11 +29,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/index.html").permitAll()
+                .antMatchers("/index").permitAll()
                 .antMatchers("/profile/**").authenticated()
                 .antMatchers("/operation/**").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/management/**").hasRole("ADMIN")
                 .and()
                 .formLogin()
                 .loginProcessingUrl("/signin")
@@ -43,7 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login") // logout feature
                 .and()
-                .rememberMe().tokenValiditySeconds(60 * 60 * 24).key("mySecret!").rememberMeParameter("remember-me"); // remember-me feature, 2592000 s = 30 days of a cookie life
+                .rememberMe().tokenValiditySeconds(60 * 60 * 24).rememberMeParameter("remember-me"); // remember-me feature, 2592000 s = 30 days of a cookie life
     }
 
     @Bean
