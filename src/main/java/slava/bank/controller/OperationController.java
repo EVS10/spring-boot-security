@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import slava.bank.repositories.ClientRepository;
 import slava.bank.model.Client;
+import slava.bank.service.ClientUpdateService;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 
 @Controller
 @RequestMapping("operation")
@@ -22,15 +22,21 @@ public class OperationController {
     private String resultPage = "operation/result";
 
     private final ClientRepository clientRepository;
+    private final ClientUpdateService clientUpdateService;
 
-    public OperationController(ClientRepository clientRepository) {
+    public OperationController(ClientRepository clientRepository, ClientUpdateService clientUpdateService) {
         this.clientRepository = clientRepository;
+        this.clientUpdateService = clientUpdateService;
     }
 
     private Client getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         return clientRepository.findByUsername(username);
+    }
+
+    private long getCurrentUserId() {
+        return getCurrentUser().getId();
     }
 
     @RequestMapping("/add")
@@ -50,14 +56,13 @@ public class OperationController {
 
     @PostMapping("/perform/add")
     public String add(@RequestParam String sum, Model model) {
-        Client user = getCurrentUser();
         String message = "";
         try {
-            if (user.add(new BigDecimal(sum))) {
-                clientRepository.save(user);
-                message = successOperation;
-            } else {
+            if (sum.contains("-")) {
                 message = failureOperation + " Sum must be positive";
+            } else {
+                clientUpdateService.increaseBalance(getCurrentUserId(), new BigDecimal(sum));
+                message = successOperation;
             }
         } catch (NumberFormatException ex) {
                 message = failureOperation + " Wrong input format";
@@ -68,42 +73,40 @@ public class OperationController {
 
     @PostMapping("/perform/withdraw")
     public String withdraw(@RequestParam String sum, Model model) {
-        Client user = getCurrentUser();
         String message = "";
         try {
-            if (user.withdraw(new BigDecimal(sum))) {
-                clientRepository.save(user);
-                message = successOperation;
-            } else if (sum.contains("-")) {
+            if (sum.contains("-")) {
                 message = failureOperation + " Sum must be positive";
             } else {
-                message = failureOperation + " Not enough money";
+                clientUpdateService.reduceBalance(getCurrentUserId(), new BigDecimal(sum));
+                message = successOperation;
             }
         } catch (NumberFormatException ex) {
             message = failureOperation + " Wrong input format";
+        } catch (RuntimeException ex) {
+            message = failureOperation + " Not enough money";
         }
         model.addAttribute("message", message);
         return resultPage;
     }
 
     @PostMapping("/perform/transfer")
-    public String withdraw(@RequestParam String id, @RequestParam String sum, Model model) {
-        Client user = getCurrentUser();
+    public String transfer(@RequestParam String id, @RequestParam String sum, Model model) {
         String message = "";
-        Client receiver = clientRepository.findById(Long.parseLong(id));
         try {
-            if (receiver != null && user.transfer(receiver, new BigDecimal(sum))) {
-                clientRepository.saveAll(Arrays.asList(user, receiver));
-                message = successOperation;
-            } else if (receiver == null) {
+            Client receiver = clientRepository.findById(Long.parseLong(id));
+            if (receiver == null) {
                 message = failureOperation + " Receiver ID does not exist";
             } else if (sum.contains("-")) {
                 message = failureOperation + " Sum must be positive";
             } else {
-                message = failureOperation + " Not enough money";
+                clientUpdateService.transfer(getCurrentUserId(), receiver.getId(), new BigDecimal(sum));
+                message = successOperation;
             }
         } catch (NumberFormatException ex) {
-            message = failureOperation + "Wrong input format";
+            message = failureOperation + " Wrong input format";
+        } catch (RuntimeException ex) {
+            message = failureOperation + " Not enough money";
         }
         model.addAttribute("message", message);
         return resultPage;
