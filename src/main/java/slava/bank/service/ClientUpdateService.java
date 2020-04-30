@@ -26,8 +26,13 @@ public class ClientUpdateService {
     }
 
     public void transfer(long userId, long receiverId, BigDecimal sum) {
-        clientRepository.reduceBalance(userId, sum);
-        clientRepository.increaseBalance(receiverId, sum);
-    }
+        if (userId < receiverId) {
+            clientRepository.reduceBalance(userId, sum);
+            clientRepository.increaseBalance(receiverId, sum);
+        } else {
+            clientRepository.increaseBalance(receiverId, sum);
+            clientRepository.reduceBalance(userId, sum);
+        }
+     }
 
 }
