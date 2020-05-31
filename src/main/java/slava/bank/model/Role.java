@@ -6,7 +6,6 @@ public enum Role {
     MANAGER("MANAGER"),
     USER("USER");
 
-
     private final String label;
 
     Role(String label) {
