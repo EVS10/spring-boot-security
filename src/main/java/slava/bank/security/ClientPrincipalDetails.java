@@ -1,49 +1,37 @@
-package rc.bootsecurity.security;
+package slava.bank.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import rc.bootsecurity.model.User;
+import slava.bank.model.Client;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class UserPrincipal implements UserDetails {
+public class ClientPrincipalDetails implements UserDetails {
 
-    private User user;
+    private Client client;
 
-    public UserPrincipal(User user) {
-        this.user = user;
+    public ClientPrincipalDetails(Client client) {
+        this.client = client;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-
-        // extract list of permissions (name)
-        user.getPermissionList().forEach(permission -> {
-            GrantedAuthority authority = new SimpleGrantedAuthority(permission);
-            authorities.add(authority);
-        });
-
-        // extract list of roles (ROLE_NAME)
-        user.getRoleList().forEach(role -> {
-            GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role);
-            authorities.add(authority);
-        });
-
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + client.getRole().getLabel()));
         return authorities;
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return client.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return client.getUsername();
     }
 
     @Override
@@ -63,7 +51,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.getActive() == 1;
+        return client.getActive() == 1;
     }
 
 }

@@ -3,9 +3,8 @@
 <head th:insert="fragments.html :: headerfiles"></head>
 <body>
 <header th:insert="fragments.html :: nav"></header>
-<!-- Page content goes here -->
 <div class="container">
-    <p>This is Admin\Index. Only people with role_admin can see this.</p>
+    <h1 class="display-4" th:text="${message}"></h1>
 </div>
 </body>
 </html>
